@@ -44,19 +44,26 @@ const Body = () =>{
 
     return listData?.length===0 ?  <Shimmer />: (
         <div className='body'>
-            <div className='filter'>
-                <div className='search'>
-                    <input type='text' className='search-box' value={searchText} onChange={(e)=>setSearchText(e.target.value)} />
+            <div className='filter flex'>
+                <div className='search m-4 p-4'>
+                    <input type='text' 
+                    className=' border border-solid border-black rounded' 
+                    value={searchText} 
+                    onChange={(e)=>setSearchText(e.target.value)} />
                     <button
+                    className=' px-4 bg-green-100 m-4 py-2 btn-primary rounded-lg'
                         onClick={searchRestaurant}
                     >Search Restaurant</button>
                 </div>
-                <button className='filter-btn' onClick={()=> filterRestaurant()}>Filter Top Rated Restaurants</button>
+                <div  className='search m-4 p-4 flex items-center'>
+                <button className='filter-btn bg-gray-100 px-4 py-2 rounded-lg' onClick={()=> filterRestaurant()}>Filter Top Rated Restaurants</button>
+                </div>
+                
             </div>
-            <div className='res-container'>
+            <div className='flex flex-wrap'>
                 {filteredRestaurants?.map(resDat=>{
                     return(
-                        <div key={resDat?.info?.id}  onClick={()=>{console.log("hiiiii");history('/restaurant/'+resDat.info.id)}}>
+                        <div key={resDat?.info?.id}  onClick={()=>{history('/restaurant/'+resDat.info.id)}}>
                             <RestaurantCard resData={resDat}  />
                         </div>
                     )
