@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {LOGO_URL} from '../utils/constants'
 import { Link } from 'react-router-dom';
 import useOnlineStatus from '../utils/useOnlineStatus';
+import UserContext from '../utils/UserContext';
 
 const Header = () =>{
     const [btnStatus,setStatus] = useState('Login')
+    const userData = useContext(UserContext);
+    const {setUserName} = useContext(UserContext)
     const status = useOnlineStatus();
+    const userLog = () =>{
+        btnStatus === 'Login'?setStatus('Logout'):setStatus('Login')
+        // logEeventClicked(btnStatus === 'Logout'?'Default User':'Rajesh Vinay')
+        setUserName(btnStatus === 'Logout'?'Default User':'Rajesh Vinay')
+    }
     return (
         <div className='flex justify-between shadow-lg bg-pink-100 '> 
             <div className='logo-container'>
@@ -29,7 +37,8 @@ const Header = () =>{
                         <Link to='/contact'>Contact Us</Link>
                     </li>
                     <li className=' px-4'>Cart</li>
-                    <button className='log-btn' onClick={()=> btnStatus === 'Login'?setStatus('Logout'):setStatus('Login')}> {btnStatus } </button>
+                    <button className='log-btn' onClick={userLog}> {btnStatus } </button>
+                    <li className='font-bold pl-3'>{userData.name}</li>
                 </ul>
             </div>
         </div>

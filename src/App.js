@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense, lazy, useContext, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import Header from './components/Header'
 import Body from './components/Body'
@@ -8,6 +8,7 @@ import Contact from './components/Contact';
 import Error from './components/Error';
 import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom';
 import RestaurantMenu from './components/RestaurantMenu';
+import UserContext from './utils/UserContext';
 // import Grocery from './components/Grocery';
 
 //unique key(best practice) >>> index as key >>> not using keys(not acceptable)
@@ -18,11 +19,16 @@ const Grocery = lazy(()=>import('./components/Grocery'))
 const About = lazy(()=>import('./components/About'))
 
 const AppLayout = () =>{
+    const userInfo = useContext(UserContext);
+    const [userName,setUserName] = useState(userInfo.name)
     return (
-        <div className='app'>
-            <Header />
-            <Outlet />
-        </div>
+        // to override the value anywhere in the children comps of Context, we can use setUserName to set the new value inside the child comps of context
+        <UserContext.Provider value={{name:userName , setUserName}}>
+            <div className='app'>
+                <Header/>
+                <Outlet />
+            </div>
+        </UserContext.Provider>
     )
 }
 

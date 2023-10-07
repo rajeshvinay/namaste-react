@@ -1,10 +1,11 @@
-import RestaurantCard from './RestaurantCard';
+import RestaurantCard,{withPromotedLabel} from './RestaurantCard';
 import { useEffect, useState } from 'react';
 import Shimmer from './Shimmer';
 import { Link,useNavigate } from 'react-router-dom';
 import useOnlineStatus from '../utils/useOnlineStatus';
 
 const Body = () =>{
+    const RestaurantPromoted = withPromotedLabel(RestaurantCard)
     const history = useNavigate();
     const [listData,setListData] = useState([]);
     const [searchText,setSearchText] = useState('');
@@ -64,7 +65,8 @@ const Body = () =>{
                 {filteredRestaurants?.map(resDat=>{
                     return(
                         <div key={resDat?.info?.id}  onClick={()=>{history('/restaurant/'+resDat.info.id)}}>
-                            <RestaurantCard resData={resDat}  />
+                            <RestaurantPromoted resDetails = {resDat}/>
+                            {/* <RestaurantCard resData={resDat}  /> */}
                         </div>
                     )
                 })}
