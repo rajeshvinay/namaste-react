@@ -1,12 +1,26 @@
+import { useDispatch } from "react-redux";
 import { CDN_URL } from "../utils/constants";
+import { addItem } from "../utils/cartSlice";
 
 const ItemsList = ({items}) =>{
+    const dispatch = useDispatch();
     console.log({items})
+    const addToCart = (item)=>{
+        const selectedItem = item?.card?.info
+        // console.log(i)
+        const itemObj = {
+            name: selectedItem?.name,
+            price:((selectedItem?.price)/100),
+            image:selectedItem?.imageId,
+            description:selectedItem?.description,
+        }
+        dispatch(addItem(itemObj));
+    }
     return(
         <>
             <div>
                 {items.map(item=>(
-                    <div key={item.card.info.id}  className="p-2 m-2 border-gray-200 border-b-2 text-left flex justify-between">
+                    <div data-testid="foodItems" key={item.card.info.id}  className="p-2 m-2 border-gray-200 border-b-2 text-left flex justify-between">
                             <div className="w-9/12 ">
                                 <div className="py-2">
                                 <span className="font-semibold">{item.card.info.name}</span>
@@ -17,7 +31,7 @@ const ItemsList = ({items}) =>{
                             </div>
                             <div className="w-3/12 p-4 ">
                                 <div className="absolute py-1 px-2 mx-12 rounded-lg text-green-500 bg-white shadow-lg">
-                                    <button className="">Add + </button>
+                                    <button data-testid="add-btn" className="" onClick={()=>addToCart(item)}>Add + </button>
                                 </div>
                                 <img className="w-full h-[120px] rounded-md" src={CDN_URL+item.card.info.imageId}></img>
                            </div>

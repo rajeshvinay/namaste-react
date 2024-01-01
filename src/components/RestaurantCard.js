@@ -3,10 +3,11 @@ import {CDN_URL} from '../utils/constants'
 
 const RestaurantCard = (props) =>{
     const {resData} = props;
-    console.log(resData)
     const {cloudinaryImageId,name,cuisines,costForTwo,avgRating,sla} = resData?.info
     return(
-        <div className='m-4 p-4 w-[250px] rounded-lg bg-gray-200 hover:bg-gray-300' >
+        <div 
+        data-testid="resCard"
+        className='m-4 p-4 w-[250px] rounded-lg bg-gray-200 hover:bg-gray-300' >
             <img
             // style={{borderRadius:'10px'}}
             className='rounded-lg'
@@ -26,7 +27,7 @@ export const withPromotedLabel = (RestaurantCard)=>{
     return ({resDetails})=>{
         return(
             <div>
-                <label className='absolute m-2 p-2 bg-black text-white rounded-lg ml-[15px] mt-[0px]'>{resDetails?.info?.avgRating+'⭐'}</label>
+                <label title='rating' className='absolute m-2 p-2 bg-black text-white rounded-lg ml-[15px] mt-[0px]'>{resDetails?.info?.avgRating+'⭐'}</label>
                 <RestaurantCard resData={resDetails} />
             </div>
         )

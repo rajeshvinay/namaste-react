@@ -9,6 +9,10 @@ import Error from './components/Error';
 import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom';
 import RestaurantMenu from './components/RestaurantMenu';
 import UserContext from './utils/UserContext';
+import Demo from './components/Demo';
+import { Provider } from 'react-redux';
+import appStore from './utils/appStore';
+import CartView from './components/CartView';
 // import Grocery from './components/Grocery';
 
 //unique key(best practice) >>> index as key >>> not using keys(not acceptable)
@@ -22,13 +26,15 @@ const AppLayout = () =>{
     const userInfo = useContext(UserContext);
     const [userName,setUserName] = useState(userInfo.name)
     return (
-        // to override the value anywhere in the children comps of Context, we can use setUserName to set the new value inside the child comps of context
-        <UserContext.Provider value={{name:userName , setUserName}}>
-            <div className='app'>
-                <Header/>
-                <Outlet />
-            </div>
-        </UserContext.Provider>
+        // to override the value anywhere in the children comps of Context, we can use setUserName to set the new value inside the child comps of context in use Context
+        <Provider store={appStore}>
+            <UserContext.Provider value={{name:userName , setUserName}}>
+                <div className='app'>
+                    <Header/>
+                    <Outlet />
+                </div>
+            </UserContext.Provider>
+        </Provider>
     )
 }
 
@@ -56,6 +62,14 @@ const routes = createBrowserRouter([
             {
                 path:'/restaurant/:resId',
                 element:<RestaurantMenu />
+            },
+            {
+                path:'/demo',
+                element:<Demo />
+            },
+            {
+                path:'/cart',
+                element:<CartView/>
             },
             {
                 path:'/grocery',
